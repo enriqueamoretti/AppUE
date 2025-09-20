@@ -22,14 +22,27 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 
 @Composable
-fun LoginScreen(NavControler: NavController){
+fun RegisterScreen(navController: NavController){
+    var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+
+
+
     Column (
         modifier = Modifier.padding(16.dp)
     ) {
-        Text("Iniciar Sesión", style = MaterialTheme.typography.titleLarge)
+        Text("Registro", style = MaterialTheme.typography.titleLarge)
         /*TextField(value = email, onValueChange = { email = it })*/
+
+        OutlinedTextField(
+            value = name,
+            onValueChange = { name = it },
+            label = { Text("Nombre") },
+            placeholder = { Text("Nombre") },
+            modifier = Modifier.fillMaxWidth(),
+        )
 
         OutlinedTextField(
             value = email,
@@ -47,17 +60,30 @@ fun LoginScreen(NavControler: NavController){
             modifier = Modifier.fillMaxWidth(),
         )
 
+        OutlinedTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            label = { Text("Confirmar contraseña") },
+            placeholder = { Text("Confirmar contraseña") },
+            modifier = Modifier.fillMaxWidth(),
+        )
+
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            /*TODO*/
+            if(name.isNotEmpty() && email.isNotEmpty() && password.isNotBlank()
+                && password == confirmPassword){
+                navController.navigate("login")
+            }
+
         }, modifier = Modifier.fillMaxWidth()
         ) {
-            Text("Iniciar Sesión")
+            Text("Registrarse")
         }
         Spacer(modifier = Modifier.height(8.dp)) // Add some space before the new button
-        Button(onClick = { NavControler.navigate("home") }, modifier = Modifier.fillMaxWidth()) {
+        Button(onClick = { navController.navigate("home") }, modifier = Modifier.fillMaxWidth()) {
             Text("Home")
         }
     }
+
 }
